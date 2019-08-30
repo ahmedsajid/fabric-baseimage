@@ -9,3 +9,10 @@ RUN cd /tmp/scripts && \
     common/jvm.sh && \
     common/cleanup.sh && \
     rm -rf /tmp/scripts
+
+# update system packages
+RUN apt-get update -qq \
+    && apt-get -y upgrade \
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/cache /var/lib/log

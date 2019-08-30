@@ -14,6 +14,13 @@ RUN curl -fSL "http://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCA
     && mv /opt/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION" /opt/kafka \
     && rm kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz
 
+# update system packages
+RUN apt-get update -qq \
+    && apt-get -y upgrade \
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/cache /var/lib/log
+
 ADD payload/kafka-run-class.sh /opt/kafka/bin/kafka-run-class.sh
 
 ADD payload/docker-entrypoint.sh /docker-entrypoint.sh

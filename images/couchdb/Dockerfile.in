@@ -133,6 +133,13 @@ RUN chmod +x /docker-entrypoint.sh \
  && chmod 664 /opt/couchdb/etc/default.d/*.ini \
  && chmod 775 /opt/couchdb/etc/*.d
 
+# update system packages
+RUN apt-get update -qq \
+    && apt-get -y upgrade \
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/cache /var/lib/log
+
 WORKDIR /opt/couchdb
 EXPOSE 5984 4369 9100
 

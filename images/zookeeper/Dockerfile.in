@@ -38,6 +38,13 @@ RUN set -x \
     && curl -fsSL "http://archive.apache.org/dist/zookeeper/$DISTRO_NAME/$DISTRO_NAME.tar.gz" | tar -xz \
     && mv "$DISTRO_NAME/conf/"* "$ZOO_CONF_DIR"
 
+# update system packages
+RUN apt-get update -qq \
+    && apt-get -y upgrade \
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/cache /var/lib/log
+
 WORKDIR $DISTRO_NAME
 VOLUME ["$ZOO_DATA_DIR", "$ZOO_DATA_LOG_DIR"]
 
